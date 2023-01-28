@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -26,6 +27,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
+        if(userRepository3.findById(userId) == null) return null;
+        if(parkingLotRepository3.findById(parkingLotId) == null) return null;
         User user = userRepository3.findById(userId).get();
         ParkingLot parkingLot = parkingLotRepository3.findById(parkingLotId).get();
         Reservation reservation = new Reservation();
@@ -44,7 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
                 spot.setOccupied(true);
                 spot.getReservationList().add(reservation);
                 user.getReservationList().add(reservation);
-                reservationRepository3.save(reservation);
+                // reservationRepository3.save(reservation);
                 userRepository3.save(user);
                 spotRepository3.save(spot);
                 break;
