@@ -32,8 +32,8 @@ public class PaymentServiceImpl implements PaymentService {
             throw new Exception("Insufficient Amount");
         }
         payment.setPaymentCompleted(true);
-        paymentRepository2.save(payment);
         payment.setReservation(reservation);
+        paymentRepository2.save(payment);
         return payment;
     }
 }
