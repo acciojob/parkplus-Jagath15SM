@@ -36,7 +36,7 @@ public class ReservationServiceImpl implements ReservationService {
         for(Spot spot : spotList){
             int wheels = spot.getSpotType() == SpotType.FOUR_WHEELER ? 4 :
                     spot.getSpotType() == SpotType.TWO_WHEELER ? 2 : Integer.MAX_VALUE;
-            if(numberOfWheels <= wheels && !spot.isOccupied()){
+            if(numberOfWheels <= wheels && !spot.getOccupied()){
                 reservedSpot = true;
                 reservation.setUser(user);
                 reservation.setSpot(spot);
