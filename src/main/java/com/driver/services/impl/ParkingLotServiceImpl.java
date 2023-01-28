@@ -23,28 +23,27 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         ParkingLot parkingLot = new ParkingLot();
         parkingLot.setName(name);
         parkingLot.setAddress(address);
+        parkingLot.setSpotList(new ArrayList<>());
         parkingLotRepository1.save(parkingLot);
         return parkingLot;
     }
 
     @Override
     public Spot addSpot(int parkingLotId, Integer numberOfWheels, Integer pricePerHour) {
-        Spot spot = new Spot();
         ParkingLot parkingLot = parkingLotRepository1.findById(parkingLotId).get();
-        spot.setParkingLot(parkingLot);
+        Spot spot = new Spot();
         spot.setPricePerHour(pricePerHour);
-        SpotType spotType;
         if(numberOfWheels == 2){
-            spotType = SpotType.TWO_WHEELER;
+            spot.setSpotType(SpotType.TWO_WHEELER);
         }
         else if(numberOfWheels == 4){
-            spotType = SpotType.FOUR_WHEELER;
+            spot.setSpotType(SpotType.FOUR_WHEELER);
         }
         else{
-            spotType = SpotType.OTHERS;
+            spot.setSpotType(SpotType.OTHERS);
         }
-        spot.setSpotType(spotType);
         parkingLot.getSpotList().add(spot);
+        spot.setParkingLot(parkingLot);
         spotRepository1.save(spot);
         parkingLotRepository1.save(parkingLot);
         return spot;
@@ -57,6 +56,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public Spot updateSpot(int parkingLotId, int spotId, int pricePerHour) {
+        if(spotRepository1.findById(spotId) == null) return null;
+        if(parkingLotRepository1.findById(parkingLotId) == null) return null;
         Spot spot = spotRepository1.findById(spotId).get();
         ParkingLot parkingLot = parkingLotRepository1.findById(parkingLotId).get();
         parkingLot.getSpotList().remove(spot);
