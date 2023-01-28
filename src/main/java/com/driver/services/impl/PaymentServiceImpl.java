@@ -20,7 +20,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
         Reservation reservation = reservationRepository2.findById(reservationId).get();
-        Payment payment = reservation.getPayment();
+        Payment payment = new Payment();
         int reservationPrice = reservation.getNumberOfHours() * reservation.getSpot().getPricePerHour();
         try {
             payment.setPaymentMode(PaymentMode.valueOf(mode.toUpperCase()));
@@ -33,6 +33,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
         payment.setPaymentCompleted(true);
         payment.setReservation(reservation);
+        reservation.setPayment(payment);
         paymentRepository2.save(payment);
         return payment;
     }
