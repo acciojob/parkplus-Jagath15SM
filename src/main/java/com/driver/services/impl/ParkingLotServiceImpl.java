@@ -60,10 +60,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         if(parkingLotRepository1.findById(parkingLotId) == null) return null;
         Spot spot = spotRepository1.findById(spotId).get();
         ParkingLot parkingLot = parkingLotRepository1.findById(parkingLotId).get();
-        parkingLot.getSpotList().remove(spot);
         spot.setPricePerHour(pricePerHour);
         spot.setParkingLot(parkingLot);
-        parkingLot.getSpotList().add(spot);
 
         parkingLotRepository1.save(parkingLot);
         spotRepository1.save(spot);
